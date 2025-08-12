@@ -1,32 +1,49 @@
+#compdef gwt
+
+# Helper: add local and remote Git branches as individual completion items
+_gwt_complete_branches() {
+  local -a branches local_branches remote_branches
+  local_branches=(${(f)"$(git for-each-ref --format='%(refname:short)' refs/heads 2>/dev/null)"})
+  remote_branches=(${(f)"$(git for-each-ref --format='%(refname:short)' refs/remotes 2>/dev/null | grep -vE '/HEAD$')"})
+  branches=(${local_branches} ${remote_branches})
+  typeset -U branches  # de-duplicate
+  compadd -a branches
+}
+
 _gwt() {
   local state
 
-  # Define the completion logic for each argument position
-  _arguments \
-    '1: :->command' \
-    '2: :->argument'
+  # Two positions: 1) subcommand or branch; 2) branch when used with `add`
+  _arguments -C \
+    '1:command or branch:->command' \
+    '2:branch:->branch'
 
   case $state in
     command)
-      # For the first argument, offer a list of subcommands AND existing branches
+      # For the first argument, offer subcommands and (if inside a git repo) branches
       local -a subcommands
       subcommands=(
-        "add:Create a new worktree from a branch"
-        "remove:Interactively remove a worktree"
-        "main:Jump to the default branch worktree"
-        "master:Alias for main"
+        'add:Add a new worktree from a branch'
+        'remove:Interactively remove a worktree'
+        'main:Jump to the default branch worktree'
+        'master:Alias for main'
       )
-      _describe 'subcommand' subcommands && _git_branch_names
+      _describe 'subcommand' subcommands
+
+      if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        _gwt_complete_branches
+      fi
       ;;
-    argument)
-      # For the second argument, check if the previous word was 'add'
+
+    branch)
+      # For the second argument, only complete branches when the first word was 'add'
       case $words[2] in
         add)
-          # If it was, offer a list of branch names
-          _git_branch_names
+          if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+            _gwt_complete_branches
+          fi
           ;;
       esac
       ;;
   esac
 }
-
