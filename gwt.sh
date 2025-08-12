@@ -91,8 +91,7 @@ gwt() {
 
             echo "Removing worktree..."
             git worktree remove "$worktree_path_to_remove"
-
-            echo "Jumping to main repository folder: $main_repo_path"
+            echo "Current folder: $main_repo_path"
             ;;
           *) echo "Removal cancelled." ;;
         esac
