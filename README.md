@@ -15,8 +15,6 @@ gwt is a simple command-line tool to help you manage your Git worktrees with eas
 
 You will need to install [fzf](https://github.com/junegunn/fzf) (see this [installation instructions](https://github.com/junegunn/fzf?tab=readme-ov-file#installation)).
 
-* : A command-line fuzzy finder is required for the interactive features.
-
 ### With [antigen](https://github.com/zsh-users/antigen)
 
 In your .zshrc
