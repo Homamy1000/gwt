@@ -1,0 +1,32 @@
+_gwt() {
+  local state
+
+  # Define the completion logic for each argument position
+  _arguments \
+    '1: :->command' \
+    '2: :->argument'
+
+  case $state in
+    command)
+      # For the first argument, offer a list of subcommands AND existing branches
+      local -a subcommands
+      subcommands=(
+        "add:Create a new worktree from a branch"
+        "remove:Interactively remove a worktree"
+        "main:Jump to the default branch worktree"
+        "master:Alias for main"
+      )
+      _describe 'subcommand' subcommands && _git_branch_names
+      ;;
+    argument)
+      # For the second argument, check if the previous word was 'add'
+      case $words[2] in
+        add)
+          # If it was, offer a list of branch names
+          _git_branch_names
+          ;;
+      esac
+      ;;
+  esac
+}
+
