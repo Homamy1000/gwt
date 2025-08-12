@@ -90,8 +90,9 @@ gwt() {
             cd "$main_repo_path" || { echo "Error: failed to cd to main repository at '$main_repo_path'." >&2; return 1; }
 
             echo "Removing worktree..."
-            git worktree remove "$worktree_path_to_remove"
-            echo "Current folder: $main_repo_path"
+            if git worktree remove "$worktree_path_to_remove"; then
+              echo "Switching to folder: $main_repo_path"
+            fi
             ;;
           *) echo "Removal cancelled." ;;
         esac
