@@ -29,7 +29,7 @@ antigen bundle gko/gwt
 git clone https://github.com/gko/gwt.git
 ```
 
-2. Source the gwt.sh script in your shell's configuration file (e.g., \~/.bashrc, \~/.zshrc). Add the following line: 
+2. Source the gwt.sh script in your shell's configuration file (e.g., `~/.bashrc`, `~/.zshrc`). Add the following line: 
 ```shell
 # Make sure to use the correct path to where you cloned the repo 
 source /path/to/gwt/gwt.sh
@@ -49,7 +49,7 @@ source ~/.bashrc
 For Zsh users, gwt comes with a completion script for commands and branch names.
 
 1. Make sure the `_gwt.zsh_completion` file is in a directory that is part of your Zsh `fpath`. You can check your `fpath` with echo `$fpath`. A common location is a custom completions directory like `~/.zsh/completions`. 
-2. If you don't have a custom completions directory, you can create one and add it to your \~/.zshrc: 
+2. If you don't have a custom completions directory, you can create one and add it to your `~/.zshrc`: 
 ```shell
 mkdir -p ~/.zsh/completions  
 # Add this to your .zshrc, before the line that sources oh-my-zsh if you use it  
