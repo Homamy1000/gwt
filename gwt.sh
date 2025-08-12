@@ -16,6 +16,21 @@ _gwt_jump_to_default() {
   fi
 }
 
+_gwt_print_help() {
+  cat <<'EOF'
+Usage: gwt [command]
+Example:
+  gwt               interactively choose a worktree and cd into it
+  gwt add <branch>  create a new worktree for <branch> and cd into it
+  gwt main          jump to default branch worktree (or repo root)
+  gwt master        alias of 'gwt main'
+  gwt <branch>      jump to the worktree for <branch>
+  gwt remove        interactively remove a worktree
+Options:
+  -h, --help        show this help
+EOF
+}
+
 # git worktree manager
 # Usage:
 #   gwt              - Interactively cd into any worktree using fzf.
@@ -38,6 +53,10 @@ gwt() {
   fi
 
   case "$1" in
+    -h|--help)
+      _gwt_print_help
+      ;;
+
     add)
       local branch_to_add="$2"
       if [ -z "$branch_to_add" ]; then
