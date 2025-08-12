@@ -78,14 +78,21 @@ gwt() {
 
         case "$REPLY" in
           [Yy]*)
+            local common_dir
+            common_dir=$(git -C "$worktree_path_to_remove" rev-parse --git-common-dir 2>/dev/null)
             local main_repo_path
-            main_repo_path=$(git rev-parse --show-toplevel)
+            if [ -n "$common_dir" ]; then
+              main_repo_path=$(cd "$common_dir/.." && pwd)
+            else
+              main_repo_path=$(git rev-parse --show-toplevel)
+            fi
 
-            echo "Jumping to main repository folder..."
-            cd "$main_repo_path"
+            cd "$main_repo_path" || { echo "Error: failed to cd to main repository at '$main_repo_path'." >&2; return 1; }
 
             echo "Removing worktree..."
             git worktree remove "$worktree_path_to_remove"
+
+            echo "Jumping to main repository folder: $main_repo_path"
             ;;
           *) echo "Removal cancelled." ;;
         esac
