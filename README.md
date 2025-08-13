@@ -15,10 +15,17 @@ gwt is a simple command-line tool to help you manage your Git worktrees with eas
 
 You will need to install [fzf](https://github.com/junegunn/fzf) (see this [installation instructions](https://github.com/junegunn/fzf?tab=readme-ov-file#installation)) for the interactive features.
 
+### With [zinit](https://github.com/zdharma-continuum/zinit)
+
+In your `.zshrc`:
+```shell
+zinit light gko/gwt
+```
+
 ### With [antigen](https://github.com/zsh-users/antigen)
 
-In your .zshrc
-```sh
+In your `.zshrc`:
+```shell
 antigen bundle gko/gwt
 ```
 
