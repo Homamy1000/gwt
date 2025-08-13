@@ -15,6 +15,7 @@ _gwt() {
 
   # Two positions: 1) subcommand or branch; 2) branch when used with `add`
   _arguments -C \
+    '(-h --help)'{-h,--help}'[show help and exit]' \
     '1:command or branch:->command' \
     '2:branch:->branch'
 
@@ -47,3 +48,6 @@ _gwt() {
       ;;
   esac
 }
+
+# Register completion when sourced explicitly
+compdef _gwt gwt
