@@ -25,7 +25,8 @@ Example:
   gwt main          jump to default branch worktree (or repo root)
   gwt master        alias of 'gwt main'
   gwt <branch>      jump to the worktree for <branch>
-  gwt remove        interactively remove a worktree
+  gwt remove [-f|--force]
+                     interactively remove a worktree (force removal with -f)
 Options:
   -h, --help        show this help
 EOF
@@ -83,6 +84,11 @@ gwt() {
       ;;
 
     remove)
+      # Optional force flag support: gwt remove [-f|--force]
+      local force_flag=""
+      if [ "$2" = "-f" ] || [ "$2" = "--force" ]; then
+        force_flag="-f"
+      fi
       local fzf_opts="--height 40% --layout=reverse --preview 'git -C {1} --no-pager status'"
       printf "Select a worktree to REMOVE:\n"
       local worktree_line
@@ -109,8 +115,14 @@ gwt() {
             cd "$main_repo_path" || { echo "Error: failed to cd to main repository at '$main_repo_path'." >&2; return 1; }
 
             echo "Removing worktree..."
-            if git worktree remove "$worktree_path_to_remove"; then
-              echo "Switching to folder: $main_repo_path"
+            if [ -n "$force_flag" ]; then
+              if git worktree remove -f "$worktree_path_to_remove"; then
+                echo "Switching to folder: $main_repo_path"
+              fi
+            else
+              if git worktree remove "$worktree_path_to_remove"; then
+                echo "Switching to folder: $main_repo_path"
+              fi
             fi
             ;;
           *) echo "Removal cancelled." ;;
