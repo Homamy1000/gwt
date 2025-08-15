@@ -18,12 +18,12 @@ _gwt_jump_to_default() {
   fi
 
   if [ -n "$default_branch" ]; then
-    worktree_path=$(git worktree list | awk -v b="[$default_branch]" '$0 ~ b {print $1; exit}')
+    worktree_path=$(git worktree list | awk -v b="$default_branch" 'index($0, "[" b "]") {print $1; exit}')
   fi
 
   if [ -z "$worktree_path" ]; then
     for b in ${default_branch:-main master}; do
-      worktree_path=$(git worktree list | awk -v bb="[$b]" '$0 ~ bb {print $1; exit}')
+      worktree_path=$(git worktree list | awk -v b="$b" 'index($0, "[" b "]") {print $1; exit}')
       if [ -n "$worktree_path" ]; then
         default_branch="$b"
         break
@@ -168,7 +168,7 @@ gwt() {
     *)
       local branch_name="$1"
       local worktree_path_for_branch
-      worktree_path_for_branch=$(git worktree list | grep "\[$branch_name\]" | awk '{print $1}')
+      worktree_path_for_branch=$(git worktree list | awk -v b="$branch_name" 'index($0, "[" b "]") {print $1; exit}')
 
       if [ -n "$worktree_path_for_branch" ]; then
         echo "Jumping to worktree for branch '$branch_name'..."
