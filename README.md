@@ -83,11 +83,12 @@ Example:
   gwt main          jump to default branch worktree (or repo root)
   gwt master        alias of 'gwt main'
   gwt <branch>      jump to the worktree for <branch>
-  gwt remove        interactively remove a worktree
+  gwt remove [-f|--force]
+                     interactively remove a worktree (force removal with -f)
 Options:
   -h, --help        show this help
 ```
 
 ## License
 
-This project is open source and available under the [GPL3](/LICENSE) license.
+This project is open source and available under the [GPLv3](/LICENSE) license.
