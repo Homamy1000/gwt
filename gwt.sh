@@ -84,7 +84,6 @@ gwt() {
       ;;
 
     remove)
-      # Optional force flag support: gwt remove [-f|--force]
       local force_flag=""
       if [ "$2" = "-f" ] || [ "$2" = "--force" ]; then
         force_flag="-f"
@@ -103,6 +102,8 @@ gwt() {
 
         case "$REPLY" in
           [Yy]*)
+            local prev_pwd
+            prev_pwd=$(pwd)
             local common_dir
             common_dir=$(git -C "$worktree_path_to_remove" rev-parse --git-common-dir 2>/dev/null)
             local main_repo_path
@@ -118,10 +119,20 @@ gwt() {
             if [ -n "$force_flag" ]; then
               if git worktree remove -f "$worktree_path_to_remove"; then
                 echo "Switching to folder: $main_repo_path"
+              else
+                if [ "$prev_pwd" != "$main_repo_path" ]; then
+                  cd "$prev_pwd"
+                fi
+                echo "Error: failed to remove worktree. You may try 'gwt remove -f'." >&2
               fi
             else
               if git worktree remove "$worktree_path_to_remove"; then
                 echo "Switching to folder: $main_repo_path"
+              else
+                if [ "$prev_pwd" != "$main_repo_path" ]; then
+                  cd "$prev_pwd"
+                fi
+                echo "Error: failed to remove worktree. You may try 'gwt remove -f'." >&2
               fi
             fi
             ;;
