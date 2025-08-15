@@ -1,10 +1,34 @@
 _gwt_jump_to_default() {
-  local default_branch
-  default_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@' 2>/dev/null)
+  local default_branch=""
   local worktree_path=""
 
+  default_branch=$(git symbolic-ref -q refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+
+  if [ -z "$default_branch" ]; then
+    default_branch=$(git remote show origin 2>/dev/null | awk -F': ' '/HEAD branch/ {print $2; exit}')
+  fi
+
+  if [ -z "$default_branch" ]; then
+    for b in main master; do
+      if git show-ref --verify --quiet "refs/heads/$b"; then
+        default_branch="$b"
+        break
+      fi
+    done
+  fi
+
   if [ -n "$default_branch" ]; then
-    worktree_path=$(git worktree list | grep "\[$default_branch\]" | awk '{print $1}')
+    worktree_path=$(git worktree list | awk -v b="[$default_branch]" '$0 ~ b {print $1; exit}')
+  fi
+
+  if [ -z "$worktree_path" ]; then
+    for b in ${default_branch:-main master}; do
+      worktree_path=$(git worktree list | awk -v bb="[$b]" '$0 ~ bb {print $1; exit}')
+      if [ -n "$worktree_path" ]; then
+        default_branch="$b"
+        break
+      fi
+    done
   fi
 
   if [ -n "$worktree_path" ]; then
